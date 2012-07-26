@@ -48,6 +48,8 @@ Partial Class frmMain
         Me.pgrbStatus = New System.Windows.Forms.ProgressBar()
         Me.lblRealmlist = New System.Windows.Forms.Label()
         Me.lblRealmlistSelected = New System.Windows.Forms.Label()
+        Me.lblVersionText = New System.Windows.Forms.Label()
+        Me.lblVersion = New System.Windows.Forms.Label()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -212,7 +214,7 @@ Partial Class frmMain
         Me.lblLangue.BackColor = System.Drawing.Color.Transparent
         Me.lblLangue.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLangue.ForeColor = System.Drawing.Color.DarkGray
-        Me.lblLangue.Location = New System.Drawing.Point(270, 515)
+        Me.lblLangue.Location = New System.Drawing.Point(270, 550)
         Me.lblLangue.Name = "lblLangue"
         Me.lblLangue.Size = New System.Drawing.Size(93, 15)
         Me.lblLangue.TabIndex = 11
@@ -224,7 +226,7 @@ Partial Class frmMain
         Me.lblLangueDetect.BackColor = System.Drawing.Color.Transparent
         Me.lblLangueDetect.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLangueDetect.ForeColor = System.Drawing.Color.DarkGray
-        Me.lblLangueDetect.Location = New System.Drawing.Point(270, 528)
+        Me.lblLangueDetect.Location = New System.Drawing.Point(270, 563)
         Me.lblLangueDetect.Name = "lblLangueDetect"
         Me.lblLangueDetect.Size = New System.Drawing.Size(42, 15)
         Me.lblLangueDetect.TabIndex = 12
@@ -244,9 +246,12 @@ Partial Class frmMain
         '
         'pgrbStatus
         '
+        Me.pgrbStatus.BackColor = System.Drawing.Color.Gainsboro
+        Me.pgrbStatus.ForeColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.pgrbStatus.Location = New System.Drawing.Point(17, 606)
         Me.pgrbStatus.Name = "pgrbStatus"
         Me.pgrbStatus.Size = New System.Drawing.Size(222, 10)
+        Me.pgrbStatus.Style = System.Windows.Forms.ProgressBarStyle.Continuous
         Me.pgrbStatus.TabIndex = 14
         '
         'lblRealmlist
@@ -255,7 +260,7 @@ Partial Class frmMain
         Me.lblRealmlist.BackColor = System.Drawing.Color.Transparent
         Me.lblRealmlist.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRealmlist.ForeColor = System.Drawing.Color.DarkGray
-        Me.lblRealmlist.Location = New System.Drawing.Point(270, 544)
+        Me.lblRealmlist.Location = New System.Drawing.Point(270, 581)
         Me.lblRealmlist.Name = "lblRealmlist"
         Me.lblRealmlist.Size = New System.Drawing.Size(121, 15)
         Me.lblRealmlist.TabIndex = 15
@@ -267,11 +272,35 @@ Partial Class frmMain
         Me.lblRealmlistSelected.BackColor = System.Drawing.Color.Transparent
         Me.lblRealmlistSelected.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRealmlistSelected.ForeColor = System.Drawing.Color.DarkGray
-        Me.lblRealmlistSelected.Location = New System.Drawing.Point(270, 557)
+        Me.lblRealmlistSelected.Location = New System.Drawing.Point(270, 594)
         Me.lblRealmlistSelected.Name = "lblRealmlistSelected"
         Me.lblRealmlistSelected.Size = New System.Drawing.Size(42, 15)
         Me.lblRealmlistSelected.TabIndex = 16
         Me.lblRealmlistSelected.Text = "Label2"
+        '
+        'lblVersionText
+        '
+        Me.lblVersionText.AutoSize = True
+        Me.lblVersionText.BackColor = System.Drawing.Color.Transparent
+        Me.lblVersionText.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVersionText.ForeColor = System.Drawing.Color.DarkGray
+        Me.lblVersionText.Location = New System.Drawing.Point(270, 520)
+        Me.lblVersionText.Name = "lblVersionText"
+        Me.lblVersionText.Size = New System.Drawing.Size(90, 15)
+        Me.lblVersionText.TabIndex = 17
+        Me.lblVersionText.Text = "Version du jeu :"
+        '
+        'lblVersion
+        '
+        Me.lblVersion.AutoSize = True
+        Me.lblVersion.BackColor = System.Drawing.Color.Transparent
+        Me.lblVersion.Font = New System.Drawing.Font("Times New Roman", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVersion.ForeColor = System.Drawing.Color.DarkGray
+        Me.lblVersion.Location = New System.Drawing.Point(270, 533)
+        Me.lblVersion.Name = "lblVersion"
+        Me.lblVersion.Size = New System.Drawing.Size(42, 15)
+        Me.lblVersion.TabIndex = 18
+        Me.lblVersion.Text = "Label3"
         '
         'frmMain
         '
@@ -281,6 +310,8 @@ Partial Class frmMain
         Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.ClientSize = New System.Drawing.Size(807, 625)
+        Me.Controls.Add(Me.lblVersionText)
+        Me.Controls.Add(Me.lblVersion)
         Me.Controls.Add(Me.lblRealmlist)
         Me.Controls.Add(Me.pgrbStatus)
         Me.Controls.Add(Me.lblRealmlistSelected)
@@ -300,8 +331,7 @@ Partial Class frmMain
         Me.MinimumSize = New System.Drawing.Size(813, 653)
         Me.Name = "frmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "The Mindwreck - WoW Luncher V2.0.4"
-        Me.TopMost = True
+        Me.Text = "The Mindwreck - WoW Luncher V3.0.1"
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
@@ -333,6 +363,8 @@ Partial Class frmMain
     Friend WithEvents pgrbStatus As System.Windows.Forms.ProgressBar
     Friend WithEvents lblRealmlist As System.Windows.Forms.Label
     Friend WithEvents lblRealmlistSelected As System.Windows.Forms.Label
+    Friend WithEvents lblVersionText As System.Windows.Forms.Label
+    Friend WithEvents lblVersion As System.Windows.Forms.Label
 
 
 End Class

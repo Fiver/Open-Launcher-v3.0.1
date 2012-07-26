@@ -444,7 +444,6 @@ Partial Class frmRealmlist
         Me.Opacity = 0.9R
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "The Mindwreck - WoW Luncher "
-        Me.TopMost = True
         Me.gbRealmlist.ResumeLayout(False)
         Me.gbRealmlist.PerformLayout()
         Me.gbRealmSelected.ResumeLayout(False)

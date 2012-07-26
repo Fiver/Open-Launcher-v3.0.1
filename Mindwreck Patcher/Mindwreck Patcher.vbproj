@@ -67,7 +67,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>dopewars-weeds-icone-9316.ico</ApplicationIcon>
+    <ApplicationIcon>world-of-warcraft-wow-icone-8576.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
@@ -247,6 +247,7 @@
     <EmbeddedResource Include="Resources\down.zip" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="world-of-warcraft-wow-icone-8576.ico" />
     <EmbeddedResource Include="Resources\spscreen.gif" />
     <EmbeddedResource Include="Resources\420.wav" />
     <EmbeddedResource Include="btnPlay\btnPlay_MDown.bmp" />

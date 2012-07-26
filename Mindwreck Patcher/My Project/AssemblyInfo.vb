@@ -14,7 +14,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("WoW Launcher - Patcher")> 
 <Assembly: AssemblyCompany("The Mindwreck - The Supremacie")> 
 <Assembly: AssemblyProduct("Mindwreck Patcher")> 
-<Assembly: AssemblyCopyright("Copyright ©  2012")> 
+<Assembly: AssemblyCopyright("")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' en utilisant '*', comme indiqué ci-dessous :
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.0.0.4")> 
-<Assembly: AssemblyFileVersion("2.0.0.4")> 
+<Assembly: AssemblyVersion("3.0.0.1")> 
+<Assembly: AssemblyFileVersion("3.0.0.1")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("fr-CA")> 

@@ -57,7 +57,6 @@ Partial Class frmHelp
         Me.Opacity = 0.9R
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "The Mindwreck - WoW Luncher "
-        Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

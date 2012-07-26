@@ -5,8 +5,14 @@ Imports Microsoft.Win32
 Imports System.Diagnostics
 
 Public Class frmMain
+
+
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+
+
         ':::::::::::::::::::::::::::::::  Détection initial des paramètres / emplacement / Langue / Internet ::::::::::::::::::::::::::::::::::::::::::::
+
         'vérification de l'emplacement du patcher
         If Not System.IO.File.Exists(file_path & "\Battle.net.dll") Or Not System.IO.Directory.Exists(file_path & "\Data") Then
             MsgBox("Vous devez lancer cette application à partir de la racine du dossier de jeux world of warcraft. Déplacer cette application au bon endroit et relancer là.", _
@@ -14,11 +20,10 @@ Public Class frmMain
             Me.Close()
         Else
 
-
-            '  Vous devez cliquer sur My Projet dans l'explorateur de solution et aller dans parametres pour entrez votre realmlist par default 
-            '  dans la case themindwreck
+            ' Vous devez cliquer sur My Projet dans l'explorateur de solution et aller dans parametres pour entrez votre realmlist par default
+            ' dans la case themindwreck
             '
-            '  Vous devez enlevez le message box d'avertissement
+            ' Vous devez enlevez le message box d'avertissement
             '
             'Supprimer ce msgbox() apres avoir configurer le realmlist par default
             MsgBox("Vous devez cliquer sur My Projet dans l'explorateur de solution et aller dans parametres pour entrez votre realmlist par default dans la case themindwreck" _
@@ -30,19 +35,19 @@ Public Class frmMain
             ''si une connextion internet est disponible
             'If connexionInternet() = True Then
 
-            '    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            '    'cette fonction est désactivé pour la réactivé consulter les commentaire 
-            '    'du block de code de la fonction checkforupdate()
-            '    'syntax checkforupdate("lien vers un fichier version.txt contenant la version actuelle de l'application sur le serveur de mise à jours","version de la nouvelle build")
-            '    'le fichier version.txt doit etre en mode Read Execute sur le serveur et doit contenir seulement la version ex: 2.0.0
-            '    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-            '    'on vérifie si une mise à jour est disponible                   '-> ici pour changer la version de la mise a jour
-            '    checkforupdate("http://localhost/update/version.txt", "2.0.4")
+            ' '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            ' 'cette fonction est désactivé pour la réactivé consulter les commentaire
+            ' 'du block de code de la fonction checkforupdate()
+            ' 'syntax checkforupdate("lien vers un fichier version.txt contenant la version actuelle de l'application sur le serveur de mise à jours","version de la nouvelle build")
+            ' 'le fichier version.txt doit etre en mode Read Execute sur le serveur et doit contenir seulement la version ex: 2.0.0
+            ' ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            ' 'on vérifie si une mise à jour est disponible '-> ici pour changer la version de la mise a jour
+            ' checkforupdate("http://localhost/update/version.txt", "2.0.4")
             'Else
-            '    'on informe qu'aucune connexion est disponible et quil est impossible de vériffier la mise à jour
-            '    MsgBox("Vous n'êtes pas connectés à internet!" & vbCrLf _
-            '           & "Il est donc impossible de vérifier si une mise à jour de l'application est disponible.", _
-            '           MsgBoxStyle.Information, "Connexion internet indisponible")
+            ' 'on informe qu'aucune connexion est disponible et quil est impossible de vériffier la mise à jour
+            ' MsgBox("Vous n'êtes pas connectés à internet!" & vbCrLf _
+            ' & "Il est donc impossible de vérifier si une mise à jour de l'application est disponible.", _
+            ' MsgBoxStyle.Information, "Connexion internet indisponible")
             'End If
 
 
@@ -72,6 +77,10 @@ Public Class frmMain
             Next
 
             '::::::::::::::::::::::::::::::::::::::::::      Initialisation des éléments de l'interface      :::::::::::::::::::::::::::::::::::::
+
+            'afichage de la version du jeux
+            lblVersion.ForeColor = Color.DarkGreen
+            lblVersion.Text = game_version()
 
             'on commence la trame sonore de fond
             My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.BackgroundLoop)
@@ -143,6 +152,21 @@ Public Class frmMain
                 Exit Sub
             Else
 
+                '''''''''''''''''' Opération spécial pour le jeux en francais ''''''''''''''''''''
+                '''''''''''''''''' downgrade vers la 4.0.6 au lieu de la 4.1.0 '''''''''''''''''''
+                '''''''''''''''''' Avertissement spécial '''''''''''''''''''''''''''''''''''''''''
+                If language = "frFR" Then
+                    If MsgBox("Attention, votre client de jeu est Francais Europe cette oppération va downgrader votre client à la version 4.0.6. " & _
+                           "Nous vous conseillons de faire une copie de votre dossier de world of warcraft avant d'éffectuer cette action, sinon vous devrez après avoir " & _
+                           "utiliser le bouton remove patch, télécharger plusieur mise à jour avec le launcher officiel puisqu'il est impossible de récupérer totalement une version " & _
+                           "4.3.4 à partir d'une version 4.0.6." & vbCrLf & vbCrLf & "Sinon vous pouvez utiliser une version enUS ou enGB qui elle serat downgrader seulement à la version 4.1.0 " & _
+                           "vous pourez tous de même vous connecter sur nos serveur mais aurrez probablement certain bug durant la partie. Cependant cette version peut être totalement récuppérer grace au bouton " & _
+                           "remove patch de notre application", MsgBoxStyle.OkCancel, "Avertissement important") = MsgBoxResult.Cancel Then
+                        Exit Sub
+                    End If
+
+                End If
+
                 'On donne la couleur souhaiter au label 
                 lblInfo.ForeColor = Color.DarkGray
                 lblInfo.Text = UpdateStatus("Début de la copie des fichiers sur le disque.", "Veuillez patienter un moment S.V.P.")
@@ -185,27 +209,97 @@ Public Class frmMain
                     pgrbStatus.Value = 32  'on affiche le pourcentage
                 End If
 
-                'on copie le nouveau fichier wow-update-13623.MPQ
-                If System.IO.File.Exists(file_path & "\Data\down\" & language & "\wow-update-13623.MPQ") Then
-                    System.IO.File.Copy(file_path & "\Data\down\" & language & "\wow-update-13623.MPQ", file_path & "\Data\wow-update-13623.MPQ")
-                    pgrbStatus.Value = 38 'on affiche le pourcentage
+
+                '''''''''''''''''' Opération spécial pour le jeux en francais ''''''''''''''''''''
+                '''''''''''''''''' downgrade vers la 4.0.6 au lieu de la 4.1.0 '''''''''''''''''''
+                If language = "frFR" Then
+retry_mfil_bk:
+                    Try
+                        'on sauvegarde l'ancien fichier WoW.mfil
+                        If System.IO.File.Exists(file_path & "\WoW.mfil") Then
+                            My.Computer.FileSystem.RenameFile(file_path & "\WoW.mfil", "WoW.mfil.bk")
+                        End If
+                    Catch ex As Exception
+                        If MsgBox("L'oppération à échouer. " & ex.Message, MsgBoxStyle.RetryCancel, "Erreur durant l'oppération") = MsgBoxResult.Retry Then
+                            GoTo retry_mfil_bk
+                        Else
+                            Exit Sub
+                        End If
+                    End Try
+retry_tfil_bk:
+                    Try
+                        'on sauvegarde l'ancien fichier WoW.tfil
+                        If System.IO.File.Exists(file_path & "\WoW.tfil") Then
+                            My.Computer.FileSystem.RenameFile(file_path & "\WoW.tfil", "WoW.tfil.bk")
+                        End If
+                    Catch ex As Exception
+                        If MsgBox("L'oppération à échouer. " & ex.Message, MsgBoxStyle.RetryCancel, "Erreur durant l'oppération") = MsgBoxResult.Retry Then
+                            GoTo retry_tfil_bk
+                        Else
+                            Exit Sub
+                        End If
+                    End Try
+
+                    Try
+                        'on copie le nouveau fichier WoW.mfil
+                        If System.IO.File.Exists(file_path & "\Data\down\" & language & "\WoW.mfil") Then
+                            System.IO.File.Copy(file_path & "\Data\down\" & language & "\WoW.mfil", file_path & "\WoW.mfil")
+                            pgrbStatus.Value = 38 'on affiche le pourcentage
+                        Else
+                            lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
+                            lblInfo.ForeColor = Color.Red
+                            My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
+                            My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
+                            Exit Sub
+                        End If
+                    Catch ex As Exception
+                        MsgBox("L'oppération à échouer. " & ex.Message, MsgBoxStyle.RetryCancel, "Erreur durant l'oppération")
+                    End Try
+
+                    Try
+                        'on copie le nouveau fichier WoW.tfil
+                        If System.IO.File.Exists(file_path & "\Data\down\" & language & "\WoW.tfil") Then
+                            System.IO.File.Copy(file_path & "\Data\down\" & language & "\WoW.tfil", file_path & "\WoW.tfil")
+                            pgrbStatus.Value = 45 'on affiche le pourcentage
+                        Else
+                            lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
+                            lblInfo.ForeColor = Color.Red
+                            My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
+                            My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
+                            Exit Sub
+                        End If
+                    Catch ex As Exception
+                        MsgBox("L'oppération à échouer. " & ex.Message, MsgBoxStyle.RetryCancel, "Erreur durant l'oppération")
+                    End Try
+
                 Else
-                    lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
-                    lblInfo.ForeColor = Color.Red
-                    My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
-                    My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
-                    Exit Sub
-                End If
-                'on copie le nouveau fichier wow-update-13624.MPQ
-                If System.IO.File.Exists(file_path & "\Data\down\" & language & "\wow-update-13624.MPQ") Then
-                    System.IO.File.Copy(file_path & "\Data\down\" & language & "\wow-update-13624.MPQ", file_path & "\Data\wow-update-13624.MPQ")
-                    pgrbStatus.Value = 45 'on affiche le pourcentage
-                Else
-                    lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
-                    lblInfo.ForeColor = Color.Red
-                    My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
-                    My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
-                    Exit Sub
+                    '''''''''''''''''''''''' Opération standard pour les uatre langue '''''''''''''''
+                    '''''''''''''''''''''''' Downgrade vers la 4.1.0 au lieu de la 4.0.6 ''''''''''''
+
+                    'on copie le nouveau fichier wow-update-13623.MPQ
+                    If System.IO.File.Exists(file_path & "\Data\down\" & language & "\wow-update-13623.MPQ") Then
+                        System.IO.File.Copy(file_path & "\Data\down\" & language & "\wow-update-13623.MPQ", file_path & "\Data\wow-update-13623.MPQ")
+                        pgrbStatus.Value = 38 'on affiche le pourcentage
+                    Else
+                        lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
+                        lblInfo.ForeColor = Color.Red
+                        My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
+                        My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
+                        Exit Sub
+                    End If
+
+                    'on copie le nouveau fichier wow-update-13624.MPQ
+                    If System.IO.File.Exists(file_path & "\Data\down\" & language & "\wow-update-13624.MPQ") Then
+                        System.IO.File.Copy(file_path & "\Data\down\" & language & "\wow-update-13624.MPQ", file_path & "\Data\wow-update-13624.MPQ")
+                        pgrbStatus.Value = 45 'on affiche le pourcentage
+                    Else
+                        lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
+                        lblInfo.ForeColor = Color.Red
+                        My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
+                        My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
+                        Exit Sub
+                    End If
+
                 End If
 
                 'on renomme realmlist.wtf
@@ -222,6 +316,7 @@ Public Class frmMain
                     My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
                     Exit Sub
                 End If
+
                 'On créé le nouveaux fichier realmlist
                 Try
                     Dim FSys = CreateObject("Scripting.FileSystemObject")
@@ -255,17 +350,41 @@ Public Class frmMain
                     pgrbStatus.Value = 62 'on affiche le pourcentage
                 End If
 
-                'on copie le nouveau fichier Wow_The_Mindwreck.exe
-                If System.IO.File.Exists(file_path & "\Data\down\Wow_The_Mindwreck.exe") Then
-                    System.IO.File.Copy(file_path & "\Data\down\Wow_The_Mindwreck.exe", file_path & "\Wow_The_Mindwreck.exe")
-                    pgrbStatus.Value = 78 'on affiche le pourcentage
+
+                '''''''''''''''''' Opération spécial pour le jeux en francais ''''''''''''''''''''
+                '''''''''''''''''' downgrade vers la 4.0.6 au lieu de la 4.1.0 '''''''''''''''''''
+                If language = "frFR" Then
+
+                    'on copie le nouveau fichier Wow_The_Mindwreck.exe
+                    If System.IO.File.Exists(file_path & "\Data\down\Wow_The_Mindwreck_4.0.6.exe") Then
+                        System.IO.File.Copy(file_path & "\Data\down\Wow_The_Mindwreck_4.0.6.exe", file_path & "\Wow_The_Mindwreck.exe")
+                        pgrbStatus.Value = 78 'on affiche le pourcentage
+                    Else
+                        lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
+                        lblInfo.ForeColor = Color.Red
+                        My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
+                        My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
+                        Exit Sub
+                    End If
+
                 Else
-                    lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
-                    lblInfo.ForeColor = Color.Red
-                    My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
-                    My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
-                    Exit Sub
+                    '''''''''''''''''''''''' Opération standard pour les uatre langue '''''''''''''''
+                    '''''''''''''''''''''''' Downgrade vers la 4.1.0 au lieu de la 4.0.6 ''''''''''''
+
+                    'on copie le nouveau fichier Wow_The_Mindwreck.exe
+                    If System.IO.File.Exists(file_path & "\Data\down\Wow_The_Mindwreck.exe") Then
+                        System.IO.File.Copy(file_path & "\Data\down\Wow_The_Mindwreck.exe", file_path & "\Wow_The_Mindwreck.exe")
+                        pgrbStatus.Value = 78 'on affiche le pourcentage
+                    Else
+                        lblInfo.Text = UpdateStatus("Erreur lors de la tentative.", "Le patch n'a pas fonctionné comme il devrait.", "Veuillez recommencer.", "Opération annulée.")
+                        lblInfo.ForeColor = Color.Red
+                        My.Computer.Audio.Play(My.Resources._420, AudioPlayMode.WaitToComplete)
+                        My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
+                        Exit Sub
+                    End If
+
                 End If
+
 
                 lblInfo.Text = UpdateStatus("Début de la modiffication des fichiers", "Veuillez patienter un moment S.V.P.", "Terminer")
                 pgrbStatus.Value = 80
@@ -300,6 +419,13 @@ Public Class frmMain
 
                 'Début du jeux et fermeture du luncher.
                 Try
+                    'message d'avertissement si langue = frFR
+                    If language = "frFR" Then
+                        MsgBox("Attention le premier lancement de l'application peux être assez long, soyez patient. Cette oppération peut prendre jusqu'a 5 minutes. " & _
+                              "Les lancement suivant seront normal." & vbCrLf & vbCrLf & "Si n'êtes pas satisfait vous pouvez toujours télécharge le client au complet 14,5 GO " & _
+                              vbCrLf & vbCrLf & "Nous vous conseillons tous de même de télécharger une version non modifier" & _
+                              "du jeux à la version 4.0.6 pour ne pas avoir à utiliser cette alternative.", MsgBoxStyle.Information, "Avertissement")
+                    End If
                     Process.Start(file_path & "\Wow_The_Mindwreck.exe")
                 Catch ex As Exception
                     MsgBox("Erreur : " & ex.Message)
@@ -321,6 +447,12 @@ Public Class frmMain
             My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
             Exit Sub
         Else
+            ':::::::::::::::::::::::::::::::::::: Message d'avertissement concernant la version frFR ::::::::::::::::::::::::::::::::::::::::::::::
+            If language = "frFR" Then
+                MsgBox("Attention, vous avez choisi de supprimer le patch, il est malheureusement impossible de restaurer une version 4.3.4 " & _
+                       "à partir d'une version 4.0.6. Cette opération supprimerat seulement les fichiers qui ont été moddifer par cette application " & _
+                       "Utilisé le launcher officiel pour restaurer le jeu complettement.", MsgBoxStyle.Information, "Avertissement important")
+            End If
 
             'On initialise le patcher 
             lblInfo.ForeColor = Color.DarkGray
@@ -337,6 +469,36 @@ Public Class frmMain
                 pgrbStatus.Value = 38
             End If
 
+
+            '''''''''''''''''' Opération spécial pour le jeux en francais ''''''''''''''''''''
+            '''''''''''''''''' downgrade vers la 4.0.6 au lieu de la 4.1.0 '''''''''''''''''''
+            'suppression du fichier \Data\wow-update-13164.MPQ
+            If System.IO.File.Exists(file_path & "\Data\wow-update-13164.MPQ") Then
+                System.IO.File.Delete(file_path & "\Data\wow-update-13164.MPQ")
+                pgrbStatus.Value = 38
+            End If
+            'suppression du fichier \Data\wow-update-13205.MPQ
+            If System.IO.File.Exists(file_path & "\Data\wow-update-13205.MPQ") Then
+                System.IO.File.Delete(file_path & "\Data\wow-update-13205.MPQ")
+                pgrbStatus.Value = 38
+            End If
+            'suppression du fichier \Data\wow-update-13287.MPQ
+            If System.IO.File.Exists(file_path & "\Data\wow-update-13287.MPQ") Then
+                System.IO.File.Delete(file_path & "\Data\wow-update-13287.MPQ")
+                pgrbStatus.Value = 38
+            End If
+            'suppression du fichier \Data\wow-update-13329.MPQ
+            If System.IO.File.Exists(file_path & "\Data\wow-update-13329.MPQ") Then
+                System.IO.File.Delete(file_path & "\Data\wow-update-13329.MPQ")
+                pgrbStatus.Value = 38
+            End If
+            'suppression du fichier \Data\wow-update-13596.MPQ
+            If System.IO.File.Exists(file_path & "\Data\wow-update-13596.MPQ") Then
+                System.IO.File.Delete(file_path & "\Data\wow-update-13596.MPQ")
+                pgrbStatus.Value = 38
+            End If
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
             'suppression du fichier \Data\wow-update-13623.MPQ
             If System.IO.File.Exists(file_path & "\Data\wow-update-13623.MPQ") Then
                 System.IO.File.Delete(file_path & "\Data\wow-update-13623.MPQ")
@@ -348,7 +510,6 @@ Public Class frmMain
                 System.IO.File.Delete(file_path & "\Data\wow-update-13624.MPQ")
                 pgrbStatus.Value = 38
             End If
-
 
             'Supprimation du realmlist
             If System.IO.File.Exists(file_path & "\Data\" & language & "\realmlist.wtf") Then
@@ -362,6 +523,26 @@ Public Class frmMain
                 My.Computer.Audio.Play(My.Resources.sound, AudioPlayMode.Background)
                 Exit Sub
             End If
+
+            '''''''''''''''''' Opération spécial pour le jeux en francais ''''''''''''''''''''
+            '''''''''''''''''' downgrade vers la 4.0.6 au lieu de la 4.1.0 '''''''''''''''''''
+            If language = "frFR" Then
+                If System.IO.File.Exists(file_path & "\WoW.tfil") Then
+                    System.IO.File.Delete(file_path & "\WoW.tfil")
+                    If System.IO.File.Exists(file_path & "\WoW.tfil.bk") Then
+                        My.Computer.FileSystem.RenameFile(file_path & "\WoW.tfil.bk", "WoW.tfil")
+                    End If
+                    pgrbStatus.Value = 54
+                End If
+                If System.IO.File.Exists(file_path & "\WoW.mfil") Then
+                    System.IO.File.Delete(file_path & "\WoW.mfil")
+                    If System.IO.File.Exists(file_path & "\WoW.mfil.bk") Then
+                        My.Computer.FileSystem.RenameFile(file_path & "\WoW.mfil.bk", "WoW.mfil")
+                    End If
+                    pgrbStatus.Value = 54
+                End If
+            End If
+            '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             'On supprime Wow_The_Mindwreck.exe et on ajoute wow.exe 
             If System.IO.File.Exists(file_path & "\Wow_The_Mindwreck.exe") Then
@@ -441,7 +622,7 @@ Public Class frmMain
     End Sub
 
     Private Sub ÀProposToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ÀProposToolStripMenuItem.Click
-        System.Diagnostics.Process.Start("http://mindwreck.no-ip.org")
+        frmAbout.Show()
     End Sub
 
     Private Sub PatchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PatchToolStripMenuItem.Click
@@ -478,136 +659,138 @@ Public Class frmMain
     ''
     ''Pour configurer le système de mise à jour.
     ''
-    ''1) 
+    ''1)
     '' ->Vous devez avoir un serveur web configuré ou vous pouvez utilisé dropbox Gratuit
-    '' ->Un dossier sur votre serveur web 
-    ''   ex: Update contenant un fichier version.txt et une archive sfx Release.exe
-    ''   dans ce fichier version.text vous aller inscrire la version de l'application qui est sur le serveur
-    ''      
-    ''   Dans l'archive sfx créé avec winrar déposer .exe de l'application ainsi que les fichier que vous
-    ''   vous voulez déploiyer durant la mise à jour ex: Release.exe <-- (Archive sfx créé avec winrar)
+    '' ->Un dossier sur votre serveur web
+    '' ex: Update contenant un fichier version.txt et une archive sfx Release.exe
+    '' dans ce fichier version.text vous aller inscrire la version de l'application qui est sur le serveur
+    ''
+    '' Dans l'archive sfx créé avec winrar déposer .exe de l'application ainsi que les fichier que vous
+    '' vous voulez déploiyer durant la mise à jour ex: Release.exe <-- (Archive sfx créé avec winrar)
     ''
     '' ->Vous devez modifier la ligne suivante dans le sub checkforupdate() :
-    ''   
-    ''   downloadupdate("http://localhost/Update/Release.exe", True)
     ''
-    ''   Remplacer le lien pour le faire pointer sur votre archive sfx sur votre serveur
-    ''   dans notre exemple http://server-adresse/Update/Release.exe
+    '' downloadupdate("http://localhost/Update/Release.exe", True)
+    ''
+    '' Remplacer le lien pour le faire pointer sur votre archive sfx sur votre serveur
+    '' dans notre exemple http://server-adresse/Update/Release.exe
     ''
     ''2)
     '' ->Dans frmMain_Load() modifier la ligne suivante :
-    ''   checkforupdate("http://localhost/update/version.txt", "2.0.4")
+    '' checkforupdate("http://localhost/update/version.txt", "2.0.4")
     ''
-    ''   Remplacer le lien pour le faire pointer sur votre fichier version.txt
-    ''   ex: http://server-adresse/Update/version.txt
-    ''   et mettre le num/ro de version de la build que vous creer actuellement
+    '' Remplacer le lien pour le faire pointer sur votre fichier version.txt
+    '' ex: http://server-adresse/Update/version.txt
+    '' et mettre le num/ro de version de la build que vous creer actuellement
     ''
-    ''   la version dans le fichier version.txt et la version dans le release.exe et a la ligne
-    ''   checkforupdate() doivent etre la meme pour que lapplication ne demande pas de mise a jour
+    '' la version dans le fichier version.txt et la version dans le release.exe et a la ligne
+    '' checkforupdate() doivent etre la meme pour que lapplication ne demande pas de mise a jour
     ''
     ''3) decommenter toute la section update ci bas et la petite section dans le form load
     ''::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     'Sub checkforupdate(ByVal updatetextfileurl As String, ByVal currentversion As String)
-    '    'on supprime l'ancienne version du fichier version
-    '    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/version.dat") Then
-    '        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/version.dat")
-    '    End If
+    ' 'on supprime l'ancienne version du fichier version
+    ' If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/version.dat") Then
+    ' My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/version.dat")
+    ' End If
 
-    '    'on supprime l'ancienne version du fichier update
-    '    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
-    '        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/update.exe")
-    '    End If
+    ' 'on supprime l'ancienne version du fichier update
+    ' If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
+    ' My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/update.exe")
+    ' End If
 
-    '    Try
-    '        My.Computer.Network.DownloadFile(updatetextfileurl, My.Application.Info.DirectoryPath + "/version.dat")
-    '        If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/version.dat") Then
-    '            Dim reader As New System.IO.StreamReader(My.Application.Info.DirectoryPath + "/version.dat")
-    '            Dim read As String = reader.ReadToEnd
-    '            reader.Close()
-    '            If read <> currentversion Then
-    '                MsgBox("Attention !" & vbCrLf & "Une nouvelle version est disponible pour The Mindwreck Patcher." & vbCrLf & _
-    '                       "Vous avez actuellement la version " & currentversion & "." & vbCrLf & _
-    '                       "La version la plus récente de The Mindwreck Patcher est " & read & "." & vbCrLf & vbCrLf & _
-    '                        "La programme de mise à jour sera automatiquement lancé à la fermeture de cette fenêtre." & vbCrLf & vbCrLf & _
-    '                        "Appuyez sur OK pour continué.", _
-    '                        MsgBoxStyle.Information, "The Mindwreck Patcher - Mise à jour disponible")
+    ' Try
+    ' My.Computer.Network.DownloadFile(updatetextfileurl, My.Application.Info.DirectoryPath + "/version.dat")
+    ' If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/version.dat") Then
+    ' Dim reader As New System.IO.StreamReader(My.Application.Info.DirectoryPath + "/version.dat")
+    ' Dim read As String = reader.ReadToEnd
+    ' reader.Close()
+    ' If read <> currentversion Then
+    ' MsgBox("Attention !" & vbCrLf & "Une nouvelle version est disponible pour The Mindwreck Patcher." & vbCrLf & _
+    ' "Vous avez actuellement la version " & currentversion & "." & vbCrLf & _
+    ' "La version la plus récente de The Mindwreck Patcher est " & read & "." & vbCrLf & vbCrLf & _
+    ' "La programme de mise à jour sera automatiquement lancé à la fermeture de cette fenêtre." & vbCrLf & vbCrLf & _
+    ' "Appuyez sur OK pour continué.", _
+    ' MsgBoxStyle.Information, "The Mindwreck Patcher - Mise à jour disponible")
 
-    '                Try
-    '                    'on supprime les fichier de version 
-    '                    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/version.dat") Then
-    '                        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/version.dat")
-    '                    End If
-    '                    'on supprime les fichiers update
-    '                    If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
-    '                        My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/update.exe")
-    '                    End If
-    '                    'on appel le sup downloadupdate
-    '                    downloadupdate("http://server-adresse/release.exe", True)
+    ' Try
+    ' 'on supprime les fichier de version
+    ' If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/version.dat") Then
+    ' My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/version.dat")
+    ' End If
+    ' 'on supprime les fichiers update
+    ' If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
+    ' My.Computer.FileSystem.DeleteFile(My.Application.Info.DirectoryPath + "/update.exe")
+    ' End If
+    ' 'on appel le sup downloadupdate
+    ' downloadupdate("http://server-adresse/release.exe", True)
 
-    '                Catch ex As Exception
-    '                    MsgBox("Erreur : " + ex.Message)
-    '                End Try
+    ' Catch ex As Exception
+    ' MsgBox("Erreur : " + ex.Message)
+    ' End Try
 
-    '            Else
-    '                'on fais rien le programme est à jour.
-    '            End If
-    '        Else
-    '            MsgBox("Une erreur c'est produite lors de la vérification de la version du programme.", MsgBoxStyle.Critical)
-    '        End If
-    '    Catch ex As Exception
-    '        MsgBox("Erreur avec le programme de mise à jour, " + ex.Message, MsgBoxStyle.Critical)
-    '    End Try
+    ' Else
+    ' 'on fais rien le programme est à jour.
+    ' End If
+    ' Else
+    ' MsgBox("Une erreur c'est produite lors de la vérification de la version du programme.", MsgBoxStyle.Critical)
+    ' End If
+    ' Catch ex As Exception
+    ' MsgBox("Erreur avec le programme de mise à jour, " + ex.Message, MsgBoxStyle.Critical)
+    ' End Try
     'End Sub
 
     'Sub downloadupdate(ByVal updaterexecuteableurl As String, ByVal showUI As Boolean)
-    '    Try
-    '        My.Computer.Network.DownloadFile(updaterexecuteableurl, My.Application.Info.DirectoryPath + "/update.exe", "", "", showUI, 99999999, True)
-    '        If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
+    ' Try
+    ' My.Computer.Network.DownloadFile(updaterexecuteableurl, My.Application.Info.DirectoryPath + "/update.exe", "", "", showUI, 99999999, True)
+    ' If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
 
-    '            url = updaterexecuteableurl
-    '            bool_showUI = showUI
-    '            Timer1.Interval = 10
-    '            Progress.Maximum = 1000
-    '            Timer1.Enabled = True
-    '            Timer1.Start()
-    '            AddHandler Timer1.Tick, AddressOf Timer1_tick
-    '        Else
-    '            downloadupdate(updaterexecuteableurl, showUI)
-    '        End If
+    ' url = updaterexecuteableurl
+    ' bool_showUI = showUI
+    ' Timer1.Interval = 10
+    ' Progress.Maximum = 1000
+    ' Timer1.Enabled = True
+    ' Timer1.Start()
+    ' AddHandler Timer1.Tick, AddressOf Timer1_tick
+    ' Else
+    ' downloadupdate(updaterexecuteableurl, showUI)
+    ' End If
 
-    '    Catch ex As Exception
-    '        MsgBox("Erreur lors du téléchargement de la mise à jour, " + ex.Message)
-    '    End Try
+    ' Catch ex As Exception
+    ' MsgBox("Erreur lors du téléchargement de la mise à jour, " + ex.Message)
+    ' End Try
     'End Sub
 
     'Sub Timer1_tick(ByVal sender As Object, ByVal e As System.EventArgs)
-    '    Try
-    '        Do Until Progress.Value = 1000
-    '            Progress.Value = Progress.Value + 1
-    '        Loop
-    '        If Progress.Value = 1000 Then
-    '            If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
-    '                Shell(My.Application.Info.DirectoryPath + "/update.exe", AppWinStyle.NormalFocus)
-    '                Me.Close()
-    '                Timer1.Stop()
-    '                Timer1.Enabled = False
-    '                Exit Sub
-    '            Else
-    '                downloadupdate(url, bool_showUI)
-    '            End If
-    '        End If
-    '    Catch ex As Exception
-    '        If ex.Message.Contains("not") Then
-    '            Shell(My.Application.Info.DirectoryPath + "/update.exe", AppWinStyle.NormalFocus)
-    '            Me.Close()
-    '            Timer1.Stop()
-    '            Timer1.Enabled = False
-    '        End If
-    '    End Try
+    ' Try
+    ' Do Until Progress.Value = 1000
+    ' Progress.Value = Progress.Value + 1
+    ' Loop
+    ' If Progress.Value = 1000 Then
+    ' If My.Computer.FileSystem.FileExists(My.Application.Info.DirectoryPath + "/update.exe") Then
+    ' Shell(My.Application.Info.DirectoryPath + "/update.exe", AppWinStyle.NormalFocus)
+    ' Me.Close()
+    ' Timer1.Stop()
+    ' Timer1.Enabled = False
+    ' Exit Sub
+    ' Else
+    ' downloadupdate(url, bool_showUI)
+    ' End If
+    ' End If
+    ' Catch ex As Exception
+    ' If ex.Message.Contains("not") Then
+    ' Shell(My.Application.Info.DirectoryPath + "/update.exe", AppWinStyle.NormalFocus)
+    ' Me.Close()
+    ' Timer1.Stop()
+    ' Timer1.Enabled = False
+    ' End If
+    ' End Try
     'End Sub
     ''::::::::::::::::::::::::::::::::::::::::::::::::::::::::: /UPDATE ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'
 #End Region
+
+
 
 
 

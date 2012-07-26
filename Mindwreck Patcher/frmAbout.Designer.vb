@@ -62,7 +62,6 @@ Partial Class frmAbout
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "The Mindwreck - WoW Luncher"
-        Me.TopMost = True
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

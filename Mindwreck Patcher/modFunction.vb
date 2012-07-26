@@ -17,6 +17,21 @@ Module modFunction
     Public Timer1 As New Timer
 
     '::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: PROCÉDURE ET FUNCTION :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+    'rification de la version du jeux
+    Public Function game_version()
+        Dim version As String = "Version inconnue"
+        If Not System.IO.File.Exists(file_path & "\Data\wow-update-13624.MPQ") _
+            And System.IO.File.Exists(file_path & "\Data\wow-update-base-15595.MPQ") Then
+            version = "4.3.4 (Non modifié)"
+        End If
+        If System.IO.File.Exists(file_path & "\Data\wow-update-13624.MPQ") Then
+            version = "4.1.0"
+        End If
+        If System.IO.File.Exists(file_path & "\Data\wow-update-13596.MPQ") Then
+            version = "4.0.6a"
+        End If
+        Return version
+    End Function
 
     'on vérifie si le jeux n'est pas déjà patcher 
     Public Function game_already_patch()
