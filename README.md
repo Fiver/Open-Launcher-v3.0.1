@@ -1,4 +1,4 @@
-Open-Launcher-v2.0.4
+Open-Launcher-v3.0.1
 ===========================
 
 This launcher allow you to downgrade automaticly wow 4.3.4 to wow 4.0.6 
