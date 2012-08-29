@@ -27,7 +27,7 @@ Public Class frmMain
             '
             'Supprimer ce msgbox() apres avoir configurer le realmlist par default
             MsgBox("Vous devez cliquer sur My Projet dans l'explorateur de solution et aller dans parametres pour entrez votre realmlist par default dans la case themindwreck" _
-                   , MsgBoxStyle.Critical, "Configuration inclomplette")
+                  , MsgBoxStyle.Critical, "Configuration inclomplette")
 
 
             '::::::::::::::::::::::::::::::::::::::::::::::::::: AUTO-UPDATER PEUX (À configurer) ::::::::::::::::::::::::::::::::::::::::::::::::::::::
